@@ -8,9 +8,7 @@
 ******************************************************************************/
 
 #include "postgres.h"
-
 #include "fmgr.h"
-#include "libpq/pqformat.h"		/* needed for send/recv functions */
 #include <stdbool.h>
 #include <string.h>
 
@@ -145,13 +143,8 @@ geocoord_equal(PG_FUNCTION_ARGS)
 	PG_RETURN_BOOL(cne && ve && ee);
 }
 
-PG_FUNCTION_INFO_V1(geocoord_compare);
-
-Datum
-geocoord_compare(PG_FUNCTION_ARGS)
+bool geocoord_compare(GeoCoord* a,GeoCoord* b)
 {
-	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
-	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
 	bool result = false;
 
 	if (a->Value1 > b->Value1)
@@ -183,17 +176,11 @@ geocoord_compare(PG_FUNCTION_ARGS)
 	result = strcmp(a->CityName,b->CityName) > 0
 
 	RESULT:
-	PG_RETURN_BOOL(result);
+	return result;
 }
 
-PG_FUNCTION_INFO_V1(geocoord_equal_zone);
-
-Datum
-geocoord_equal_zone(PG_FUNCTION_ARGS)
+bool geocoord_equal_zone(GeoCoord* a,GeoCoord* b)
 {
-	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
-	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
-	
 	bool result = false;
 
 	if (a->Value2/15 == b->Value2/15 && a->ValueB==b->ValueB)
@@ -201,7 +188,7 @@ geocoord_equal_zone(PG_FUNCTION_ARGS)
 		result = true;
 	}
 
-	PG_RETURN_BOOL(result);
+	return result;
 }
 
 PG_FUNCTION_INFO_V1(geocoord_convert_to_DMS);
@@ -240,4 +227,95 @@ char* toDMS(float coord)
 	}
 	
 	return str;
+}
+
+PG_FUNCTION_INFO_V1(geocoord_compare_l);
+
+Datum
+geocoord_compare_l(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = geocoord_compare(a,b);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_compare_le);
+
+Datum
+geocoord_compare_le(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = !geocoord_compare(b,a);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_compare_e);
+
+Datum
+geocoord_compare_e(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = geocoord_equal(a,b);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_compare_re);
+
+Datum
+geocoord_compare_re(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = !geocoord_compare(a,b);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_compare_r);
+
+Datum
+geocoord_compare_r(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = geocoord_compare(b,a);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_e_zone);
+
+Datum
+geocoord_e_zone(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = geocoord_equal_zone(a,b);
+
+	PG_RETURN_BOOL(result);
+}
+
+PG_FUNCTION_INFO_V1(geocoord_not_e_zone);
+
+Datum
+geocoord_not_e_zone(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	GeoCoord    *b = (GeoCoord *) PG_GETARG_POINTER(1);
+	
+	bool result = !geocoord_equal_zone(a,b);
+
+	PG_RETURN_BOOL(result);
 }
