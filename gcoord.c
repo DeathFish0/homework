@@ -57,7 +57,7 @@ geocoord_in(PG_FUNCTION_ARGS)
 		goto error;
 	}
 
-	for(i = 0; cn[i] != '\0'; i++) {
+	for(int i = 0; cn[i] != '\0'; i++) {
         if(!isalpha(str[i]) && !isspace(str[i])) {
             goto error;
         }
@@ -145,32 +145,31 @@ bool geocoord_compare(GeoCoord* a,GeoCoord* b)
 	if (a->Value1 > b->Value1)
 	{
 		result = true;
-		goto RESULT;
+		return result;
 	}else if(a->Value1 == b->Value1)
 	{
 		if (a->ValueA == 'N' && b->ValueA == 'S')
 		{
 			result = true;
-			goto RESULT;
+			return result;
 		}
 	}
 	
 	if (a->Value2 > b->Value2)
 	{
 		result = true;
-		goto RESULT;
+		return result;
 	}else if(a->Value2 == b->Value2)
 	{
 		if (a->ValueB == 'E' && b->ValueB == 'W')
 		{
 			result = true;
-			goto RESULT;
+			return result;
 		}
 	}
 	
 	result = strcmp(a->CityName,b->CityName) > 0
 
-	RESULT:
 	return result;
 }
 
