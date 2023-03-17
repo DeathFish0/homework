@@ -186,23 +186,6 @@ bool geocoord_equal_zone(GeoCoord* a,GeoCoord* b)
 	return result;
 }
 
-PG_FUNCTION_INFO_V1(Convert2DMS);
-
-Datum
-Convert2DMS(PG_FUNCTION_ARGS)
-{
-	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
-	char* result;
-	if (a->Lat_F)
-	{
-		result = psprintf("%s,%s%c%c%s%c",a->CityName,toDMS(a->Value1),a->ValueA,toDMS(a->Value2),a->ValueB);
-	}else{
-		result = psprintf("%s,%s%c%c%s%c",a->CityName,toDMS(a->Value2),a->ValueB,toDMS(a->Value1),a->ValueA);
-	}
-	
-	PG_RETURN_CSTRING(result);
-}
-
 char* toDMS(float coord)
 {
 	int degrees = (int)coord;
@@ -222,6 +205,23 @@ char* toDMS(float coord)
 	}
 	
 	return str;
+}
+
+PG_FUNCTION_INFO_V1(Convert2DMS);
+
+Datum
+Convert2DMS(PG_FUNCTION_ARGS)
+{
+	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
+	char* result;
+	if (a->Lat_F)
+	{
+		result = psprintf("%s,%s%c%c%s%c",a->CityName,toDMS(a->Value1),a->ValueA,toDMS(a->Value2),a->ValueB);
+	}else{
+		result = psprintf("%s,%s%c%c%s%c",a->CityName,toDMS(a->Value2),a->ValueB,toDMS(a->Value1),a->ValueA);
+	}
+	
+	PG_RETURN_CSTRING(result);
 }
 
 PG_FUNCTION_INFO_V1(geocoord_compare_l);
