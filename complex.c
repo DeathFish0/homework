@@ -191,10 +191,10 @@ bool geocoord_equal_zone(GeoCoord* a,GeoCoord* b)
 	return result;
 }
 
-PG_FUNCTION_INFO_V1(geocoord_convert_to_DMS);
+PG_FUNCTION_INFO_V1(Convert2DMS);
 
 Datum
-geocoord_convert_to_DMS(PG_FUNCTION_ARGS)
+Convert2DMS(PG_FUNCTION_ARGS)
 {
 	GeoCoord    *a = (GeoCoord *) PG_GETARG_POINTER(0);
 	char* result;

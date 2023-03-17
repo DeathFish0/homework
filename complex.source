@@ -1,12 +1,12 @@
 CREATE FUNCTION geocoord_in(cstring)
    RETURNS geocoord
-   AS 'geocoord'
+   AS 'geocoord','geocoord_in'
    LANGUAGE C IMMUTABLE STRICT;
 
 
 CREATE FUNCTION geocoord_out(geocoord)
    RETURNS cstring
-   AS 'geocoord'
+   AS 'geocoord','geocoord_out'
    LANGUAGE C IMMUTABLE STRICT;
 
 
@@ -15,30 +15,77 @@ CREATE TYPE geocoord (
    output = geocoord_out
 );
 
+CREATE FUNCTION geocoord_compare_l(geocoord,geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_compare_l'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_compare_le(geocoord,geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_compare_le'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_compare_e(geocoord,geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_compare_e'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_compare_re(geocoord,geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_compare_re'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_compare_r(geocoord,geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_compare_r'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_e_zone(geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_e_zone'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION geocoord_not_e_zone(geocoord)
+   RETURNS bool
+   AS 'geocoord','geocoord_not_e_zone'
+   LANGUAGE C IMMUTABLE STRICT;
+CREATE FUNCTION Convert2DMS(geocoord)
+   RETURNS cstring
+   AS 'geocoord','Convert2DMS'
+   LANGUAGE C IMMUTABLE STRICT;
+
 CREATE OPERATOR < (
    leftarg = geocoord,
    rightarg = geocoord,
-   function = complex_add,
+   function = geocoord_compare_l,
    commutator = >=
 );
 CREATE OPERATOR <= (
-
+   leftarg = geocoord,
+   rightarg = geocoord,
+   function = geocoord_compare_le,
+   commutator = >
 );
 CREATE OPERATOR = (
-
+   leftarg = geocoord,
+   rightarg = geocoord,
+   function = geocoord_compare_e,
+   commutator = =
 );
 CREATE OPERATOR >= (
-
+   leftarg = geocoord,
+   rightarg = geocoord,
+   function = geocoord_compare_re,
+   commutator = <
 );
 CREATE OPERATOR > (
-
+   leftarg = geocoord,
+   rightarg = geocoord,
+   function = geocoord_compare_r,
+   commutator = <=
 );
 
 CREATE OPERATOR ~ (
-
+   leftarg = geocoord,
+   function = geocoord_e_zone
 );
 
 CREATE OPERATOR !~ (
-
+   leftarg = geocoord,
+   function = geocoord_not_e_zone
 );
 
