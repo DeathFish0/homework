@@ -1,12 +1,12 @@
 CREATE FUNCTION geocoord_in(cstring)
    RETURNS geocoord
-   AS 'geocoord','geocoord_in'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_in'
    LANGUAGE C IMMUTABLE STRICT;
 
 
 CREATE FUNCTION geocoord_out(geocoord)
    RETURNS cstring
-   AS 'geocoord','geocoord_out'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_out'
    LANGUAGE C IMMUTABLE STRICT;
 
 
@@ -17,35 +17,35 @@ CREATE TYPE geocoord (
 
 CREATE FUNCTION geocoord_compare_l(geocoord,geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_compare_l'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_compare_l'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_compare_le(geocoord,geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_compare_le'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_compare_le'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_compare_e(geocoord,geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_compare_e'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_compare_e'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_compare_re(geocoord,geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_compare_re'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_compare_re'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_compare_r(geocoord,geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_compare_r'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_compare_r'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_e_zone(geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_e_zone'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_e_zone'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION geocoord_not_e_zone(geocoord)
    RETURNS bool
-   AS 'geocoord','geocoord_not_e_zone'
+   AS '/localstorage/z5304952/testing/gcoord.so','geocoord_not_e_zone'
    LANGUAGE C IMMUTABLE STRICT;
 CREATE FUNCTION Convert2DMS(geocoord)
    RETURNS cstring
-   AS 'geocoord','Convert2DMS'
+   AS '/localstorage/z5304952/testing/gcoord.so','Convert2DMS'
    LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OPERATOR < (
